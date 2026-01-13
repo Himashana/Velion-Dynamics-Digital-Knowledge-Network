@@ -9,5 +9,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/users")
 public class AppUserController {
-    
+    @RequestMapping("/test")
+    public String test() {
+        return "AppUserController is working!";
+    }
 }
