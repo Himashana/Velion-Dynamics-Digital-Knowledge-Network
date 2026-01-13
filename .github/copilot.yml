@@ -1,0 +1,4 @@
+#.github/copilot.yml
+# This workflow disables the automated code reviews for this repository.
+code_review:
+  enabled: false
