@@ -22,7 +22,11 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
             .csrf(csrf -> csrf
-                .ignoringRequestMatchers("/h2-console/**", "/api/v1/users/auth/**") // Disable CSRF for H2 console
+                .ignoringRequestMatchers(
+                    "/h2-console/**", // Disable CSRF for H2 console
+                    "/api/v1/auth/**",
+                    "/api/v1/users/register"
+                )
             )
             .headers(headers -> headers
                 .frameOptions(frameOptions -> frameOptions
@@ -31,7 +35,10 @@ public class SecurityConfig {
             )
             .authorizeHttpRequests(requests -> requests
                 // Authentication endpoints
-                .requestMatchers("/api/v1/users/auth/**").permitAll()
+                .requestMatchers(
+                    "/api/v1/auth/**",
+                    "/api/v1/users/register"
+                ).permitAll()
                 
                 // Swagger/OpenAPI endpoints
                 .requestMatchers(

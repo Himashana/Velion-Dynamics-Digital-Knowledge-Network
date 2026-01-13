@@ -1,4 +1,4 @@
-package com.himashana.dkn.dkn_backend.enums;
+package com.himashana.dkn.dkn_backend.user.enums;
 
 import java.util.Arrays;
 

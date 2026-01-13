@@ -1,8 +1,10 @@
-package com.himashana.dkn.dkn_backend.model;
+package com.himashana.dkn.dkn_backend.workspace.model;
 
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+
+import com.himashana.dkn.dkn_backend.user.model.AppUser;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;

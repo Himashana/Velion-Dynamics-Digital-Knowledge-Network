@@ -1,10 +1,10 @@
-package com.himashana.dkn.dkn_backend.repository;
+package com.himashana.dkn.dkn_backend.user.repository;
 
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.himashana.dkn.dkn_backend.model.AppUser;
+import com.himashana.dkn.dkn_backend.user.model.AppUser;
 
 public interface AppUserRepository extends JpaRepository<AppUser, Long> {
     Optional<AppUser> findByEmail(String email);
