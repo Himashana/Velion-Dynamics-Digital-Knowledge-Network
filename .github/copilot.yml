@@ -1,0 +1,6 @@
+#.github/copilot.yml
+# This configuration disables the automated code reviews for this repository.
+version: 1
+code_review:
+  enabled: false
+  auto_review: false
