@@ -1,4 +1,4 @@
-package com.himashana.dkn.dkn_backend.controller;
+package com.himashana.dkn.dkn_backend.user;
 
 import java.util.HashMap;
 import java.util.Optional;
@@ -8,14 +8,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import com.himashana.dkn.dkn_backend.authentication.service.JwtService;
 import com.himashana.dkn.dkn_backend.dto.ApiResponse;
-import com.himashana.dkn.dkn_backend.model.AppUser;
-import com.himashana.dkn.dkn_backend.repository.AppUserRepository;
-import com.himashana.dkn.dkn_backend.service.AuthService;
-import com.himashana.dkn.dkn_backend.service.JwtService;
 
 import lombok.RequiredArgsConstructor;
-import com.himashana.dkn.dkn_backend.requests.LoginRequest;
+import com.himashana.dkn.dkn_backend.user.model.AppUser;
+import com.himashana.dkn.dkn_backend.user.repository.AppUserRepository;
 
 
 @RestController
@@ -25,19 +23,11 @@ public class AppUserController {
     @Autowired
     AppUserRepository appUserRepository;
 
-    private final AuthService authService;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
 
-
-    // Authenticate User
-    @PostMapping("/auth/login")
-    public ResponseEntity<ApiResponse> authenticateUser(@RequestBody LoginRequest loginRequest) {
-        return authService.authenticateUser(loginRequest);
-    }
-
     // Register User
-    @PostMapping("/auth/register")
+    @PostMapping("/register")
     public ResponseEntity<ApiResponse> registerUser(@RequestBody AppUser appUser) {
         Optional<AppUser> existingUser = appUserRepository.findByEmail(appUser.getEmail());
 

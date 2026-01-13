@@ -1,4 +1,4 @@
-package com.himashana.dkn.dkn_backend.requests;
+package com.himashana.dkn.dkn_backend.authentication.requests;
 
 import lombok.Getter;
 import lombok.Setter;

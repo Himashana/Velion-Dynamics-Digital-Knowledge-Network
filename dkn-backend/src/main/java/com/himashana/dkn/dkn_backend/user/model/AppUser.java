@@ -1,4 +1,4 @@
-package com.himashana.dkn.dkn_backend.model;
+package com.himashana.dkn.dkn_backend.user.model;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -18,7 +18,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.himashana.dkn.dkn_backend.enums.PermissionLevel;
+import com.himashana.dkn.dkn_backend.user.enums.PermissionLevel;
+import com.himashana.dkn.dkn_backend.workspace.model.WorkspaceAccess;
 
 import jakarta.persistence.Id;
 import jakarta.persistence.Column;

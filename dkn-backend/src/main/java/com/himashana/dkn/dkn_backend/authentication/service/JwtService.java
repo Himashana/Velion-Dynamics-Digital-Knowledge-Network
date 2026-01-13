@@ -1,4 +1,4 @@
-package com.himashana.dkn.dkn_backend.service;
+package com.himashana.dkn.dkn_backend.authentication.service;
 
 import java.security.Key;
 import java.util.Date;
@@ -7,7 +7,7 @@ import java.util.Map;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import com.himashana.dkn.dkn_backend.model.AppUser;
+import com.himashana.dkn.dkn_backend.user.model.AppUser;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

@@ -1,4 +1,4 @@
-package com.himashana.dkn.dkn_backend.service;
+package com.himashana.dkn.dkn_backend.authentication.service;
 
 import java.util.HashMap;
 import java.util.Optional;
@@ -9,10 +9,10 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
+import com.himashana.dkn.dkn_backend.authentication.requests.LoginRequest;
 import com.himashana.dkn.dkn_backend.dto.ApiResponse;
-import com.himashana.dkn.dkn_backend.model.AppUser;
-import com.himashana.dkn.dkn_backend.repository.AppUserRepository;
-import com.himashana.dkn.dkn_backend.requests.LoginRequest;
+import com.himashana.dkn.dkn_backend.user.model.AppUser;
+import com.himashana.dkn.dkn_backend.user.repository.AppUserRepository;
 
 import lombok.RequiredArgsConstructor;
 

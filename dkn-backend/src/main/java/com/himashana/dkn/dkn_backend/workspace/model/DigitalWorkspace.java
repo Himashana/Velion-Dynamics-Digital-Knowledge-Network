@@ -1,4 +1,4 @@
-package com.himashana.dkn.dkn_backend.model;
+package com.himashana.dkn.dkn_backend.workspace.model;
 
 import lombok.Getter;
 import lombok.Setter;
