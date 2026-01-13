@@ -3,12 +3,12 @@ package com.himashana.dkn.dkn_backend.model;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import tools.jackson.databind.JsonNode;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
@@ -55,14 +55,13 @@ public class AppUser implements UserDetails {
     private String officeLocation;
     
     @JdbcTypeCode(SqlTypes.JSON)
-    @Column(columnDefinition = "json", nullable = false)
-    private JsonNode performanceMetrics;
+    @Column(columnDefinition = "json", nullable = true)
+    private Map<String, Object> performanceMetrics;
 
-    @Column(nullable = false)
     private String responsibility;
 
     @JdbcTypeCode(SqlTypes.JSON)
-    @Column(columnDefinition = "json", nullable = false)
+    @Column(columnDefinition = "json", nullable = true)
     private List<String> expertDomains;
 
     private Integer yearsOfExperience;

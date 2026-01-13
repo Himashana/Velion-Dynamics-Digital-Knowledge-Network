@@ -21,7 +21,14 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
-            .csrf(csrf -> csrf.disable())
+            .csrf(csrf -> csrf
+                .ignoringRequestMatchers("/h2-console/**", "/api/v1/users/auth/**") // Disable CSRF for H2 console
+            )
+            .headers(headers -> headers
+                .frameOptions(frameOptions -> frameOptions
+                    .sameOrigin() // Allow frames from the same origin, specially for H2 database console
+                )
+            )
             .authorizeHttpRequests(requests -> requests
                 // Authentication endpoints
                 .requestMatchers("/api/v1/users/auth/**").permitAll()
@@ -36,7 +43,8 @@ public class SecurityConfig {
                     "/swagger-resources",
                     "/configuration/ui",
                     "/configuration/security",
-                    "/webjars/**"
+                    "/webjars/**",
+                    "/h2-console/**"
                 ).permitAll().anyRequest().authenticated()
             )
             .sessionManagement(management -> 
