@@ -18,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class UserService {
-     @Autowired
+    @Autowired
     AppUserRepository appUserRepository;
 
     private final PasswordEncoder passwordEncoder;

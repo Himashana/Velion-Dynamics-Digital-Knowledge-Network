@@ -21,4 +21,24 @@ public class WorkspaceController {
     public ResponseEntity<ApiResponse> createWorkspace(@RequestBody DigitalWorkspace digitalWorkspace) {
         return workspaceService.createWorkspace(digitalWorkspace);
     }
+
+    @GetMapping("/{workspaceId}")
+    public ResponseEntity<DigitalWorkspace> getWorkspace(@PathVariable Long workspaceId) {
+        return workspaceService.getWorkspace(workspaceId);
+    }
+
+    @GetMapping
+    public ResponseEntity<Iterable<DigitalWorkspace>> getAllWorkspaces() {
+        return workspaceService.getAllWorkspaces();
+    }
+
+    @PutMapping
+    public ResponseEntity<ApiResponse> updateWorkspace(@RequestBody DigitalWorkspace digitalWorkspace) {
+        return workspaceService.updateWorkspace(digitalWorkspace);
+    }
+
+    @DeleteMapping("/{workspaceId}")
+    public ResponseEntity<ApiResponse> deleteWorkspace(@PathVariable Long workspaceId) {
+        return workspaceService.deleteWorkspace(workspaceId);
+    }
 }
