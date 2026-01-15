@@ -1,6 +1,7 @@
 package com.himashana.dkn.dkn_backend.workspace;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import com.himashana.dkn.dkn_backend.dto.ApiResponse;
@@ -8,8 +9,6 @@ import com.himashana.dkn.dkn_backend.dto.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import com.himashana.dkn.dkn_backend.workspace.model.DigitalWorkspace;
 import com.himashana.dkn.dkn_backend.workspace.service.WorkspaceService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequiredArgsConstructor
@@ -28,8 +27,8 @@ public class WorkspaceController {
     }
 
     @GetMapping
-    public ResponseEntity<Iterable<DigitalWorkspace>> getAllWorkspaces() {
-        return workspaceService.getAllWorkspaces();
+    public ResponseEntity<Iterable<DigitalWorkspace>> getAllWorkspaces(Authentication authentication) {
+        return workspaceService.getAllWorkspaces(authentication);
     }
 
     @PutMapping

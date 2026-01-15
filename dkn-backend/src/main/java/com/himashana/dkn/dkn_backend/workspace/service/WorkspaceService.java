@@ -2,9 +2,13 @@ package com.himashana.dkn.dkn_backend.workspace.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import com.himashana.dkn.dkn_backend.dto.ApiResponse;
+import com.himashana.dkn.dkn_backend.user.model.AppUser;
+import com.himashana.dkn.dkn_backend.user.repository.AppUserRepository;
 import com.himashana.dkn.dkn_backend.workspace.model.DigitalWorkspace;
 import com.himashana.dkn.dkn_backend.workspace.repository.DigitalWorkspaceRepository;
 
@@ -13,6 +17,9 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class WorkspaceService {
+    @Autowired
+    AppUserRepository appUserRepository;
+
     @Autowired
     DigitalWorkspaceRepository digitalWorkspaceRepository;
 
@@ -40,8 +47,29 @@ public class WorkspaceService {
     }
 
     // Retrieve all digital workplaces
-    public ResponseEntity<Iterable<DigitalWorkspace>> getAllWorkspaces() {
-        Iterable<DigitalWorkspace> workspaces = digitalWorkspaceRepository.findAllByIsDeletedFalse();
+    public ResponseEntity<Iterable<DigitalWorkspace>> getAllWorkspaces(Authentication authentication) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new RuntimeException("Access denied.");
+        }
+
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+        // Fetch user from the database
+        AppUser appUser = appUserRepository
+                .findByEmail(userDetails.getUsername())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+
+        Iterable<DigitalWorkspace> workspaces;
+
+        if (appUser.getPermissionLevel() == 1) {
+            // All workspaces access for leadership level
+            workspaces = digitalWorkspaceRepository.findAllByIsDeletedFalse();
+        } else {
+            // Limited workspaces access for other users
+            workspaces = digitalWorkspaceRepository.findAllByIsDeletedFalseAndCurrentUser(appUser.getUserId());
+        }
+
         return ResponseEntity.ok(workspaces);
     }
 
