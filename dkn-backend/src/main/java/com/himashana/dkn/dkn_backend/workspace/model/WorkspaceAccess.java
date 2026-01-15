@@ -33,7 +33,7 @@ public class WorkspaceAccess {
     private DigitalWorkspace digitalWorkspace;
 
     @Column(nullable = false)
-    private Integer permissionLevel;
+    private Integer permissionLevel; // 1 - Read, 2 - Write
 
     @Column(nullable = false)
     private String invitedDate;

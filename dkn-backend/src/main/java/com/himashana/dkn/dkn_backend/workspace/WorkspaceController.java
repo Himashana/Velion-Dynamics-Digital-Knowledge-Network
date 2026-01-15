@@ -17,8 +17,8 @@ public class WorkspaceController {
     private final WorkspaceService workspaceService;
 
     @PostMapping
-    public ResponseEntity<ApiResponse> createWorkspace(@RequestBody DigitalWorkspace digitalWorkspace) {
-        return workspaceService.createWorkspace(digitalWorkspace);
+    public ResponseEntity<ApiResponse> createWorkspace(Authentication authentication, @RequestBody DigitalWorkspace digitalWorkspace) {
+        return workspaceService.createWorkspace(authentication, digitalWorkspace);
     }
 
     @GetMapping("/{workspaceId}")

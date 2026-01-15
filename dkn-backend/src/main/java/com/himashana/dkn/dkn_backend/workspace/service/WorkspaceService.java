@@ -7,10 +7,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import com.himashana.dkn.dkn_backend.dto.ApiResponse;
+import com.himashana.dkn.dkn_backend.user.dto.UserDto;
 import com.himashana.dkn.dkn_backend.user.model.AppUser;
 import com.himashana.dkn.dkn_backend.user.repository.AppUserRepository;
+import com.himashana.dkn.dkn_backend.user.service.UserService;
 import com.himashana.dkn.dkn_backend.workspace.model.DigitalWorkspace;
+import com.himashana.dkn.dkn_backend.workspace.model.WorkspaceAccess;
 import com.himashana.dkn.dkn_backend.workspace.repository.DigitalWorkspaceRepository;
+import com.himashana.dkn.dkn_backend.workspace.repository.WorkspaceAccessRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -23,16 +27,37 @@ public class WorkspaceService {
     @Autowired
     DigitalWorkspaceRepository digitalWorkspaceRepository;
 
+    @Autowired
+    WorkspaceAccessRepository workspaceAccessRepository;
+
+    private final UserService userService;
+
     // Create a new digital workspace
-    public ResponseEntity<ApiResponse> createWorkspace(DigitalWorkspace digitalWorkspace) {
+    public ResponseEntity<ApiResponse> createWorkspace(Authentication authentication, DigitalWorkspace digitalWorkspace) {
+        // Fetch current user
+        UserDto currentUser = userService.getCurrentUser(authentication);
+
         ApiResponse apiResponse = new ApiResponse("");
 
         // Set default values
         digitalWorkspace.setWorkspaceId(null); // Ensure the ID is null for new entity creation to auto-generate
         digitalWorkspace.setDeleted(false);
 
-        // Save the new workspace
+        // Assign the write permission to the creator
+        WorkspaceAccess workspaceAccess = new WorkspaceAccess();
+
+        AppUser user = appUserRepository.findById(currentUser.getUserId())
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + currentUser.getUserId()));
+        workspaceAccess.setDigitalWorkspace(digitalWorkspace);
+        workspaceAccess.setUser(user);
+        workspaceAccess.setPermissionLevel(2); // Write permission
+        workspaceAccess.setInvitedDate(java.time.LocalDate.now().toString());
+        workspaceAccess.setInvitedBy(currentUser.getUserId());
+
+        // Save the new workspace and access
         digitalWorkspaceRepository.save(digitalWorkspace);
+        workspaceAccessRepository.save(workspaceAccess);
+
         apiResponse.setResponse("Workspace created successfully.");
 
         return ResponseEntity.ok(apiResponse);
@@ -48,26 +73,16 @@ public class WorkspaceService {
 
     // Retrieve all digital workplaces
     public ResponseEntity<Iterable<DigitalWorkspace>> getAllWorkspaces(Authentication authentication) {
-        if (authentication == null || !authentication.isAuthenticated()) {
-            throw new RuntimeException("Access denied.");
-        }
-
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-
-        // Fetch user from the database
-        AppUser appUser = appUserRepository
-                .findByEmail(userDetails.getUsername())
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-
+        // Fetch current user
+        UserDto currentUser = userService.getCurrentUser(authentication);
         Iterable<DigitalWorkspace> workspaces;
 
-        if (appUser.getPermissionLevel() == 1) {
+        if (currentUser.getPermissionLevel() == 1) {
             // All workspaces access for leadership level
             workspaces = digitalWorkspaceRepository.findAllByIsDeletedFalse();
         } else {
             // Limited workspaces access for other users
-            workspaces = digitalWorkspaceRepository.findAllByIsDeletedFalseAndCurrentUser(appUser.getUserId());
+            workspaces = digitalWorkspaceRepository.findAllByIsDeletedFalseAndCurrentUser(currentUser.getUserId());
         }
 
         return ResponseEntity.ok(workspaces);
