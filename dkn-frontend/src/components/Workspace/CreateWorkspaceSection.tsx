@@ -7,7 +7,7 @@ export interface CreateWorkspaceDetails {
   description?: string;
 }
 
-export function CreateWorkspaceSection() {
+export function CreateWorkspaceSection({ onClose }: { onClose?: () => void }) {
   const [newWorkspaceDetails, setNewWorkspaceDetails] =
     useState<CreateWorkspaceDetails>({
       name: "",
@@ -17,7 +17,11 @@ export function CreateWorkspaceSection() {
   const createWorkspaceMutation = useCreateWorkspaceMutation();
 
   const onSubmit = () => {
-    createWorkspaceMutation.mutate(newWorkspaceDetails);
+    createWorkspaceMutation.mutate(newWorkspaceDetails, {
+      onSuccess: () => {
+        onClose?.();
+      },
+    });
   };
 
   return (
@@ -50,6 +54,7 @@ export function CreateWorkspaceSection() {
                   name: e.target.value,
                 })
               }
+              required
             />
           </div>
           <div>
@@ -62,7 +67,7 @@ export function CreateWorkspaceSection() {
             <textarea
               id="workspaceDescription"
               className="w-full px-3 py-2 border rounded"
-              placeholder="Enter workspace description"
+              placeholder="Enter description..."
               value={newWorkspaceDetails.description}
               onChange={(e) =>
                 setNewWorkspaceDetails({
@@ -72,16 +77,22 @@ export function CreateWorkspaceSection() {
               }
             />
           </div>
+          {createWorkspaceMutation.isError && (
+            <div className="text-red-500">
+              Error creating workspace. Please try again.
+            </div>
+          )}
           <div className="flex justify-end space-x-2">
             <button
               type="button"
-              className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600"
+              className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 cursor-pointer"
+              onClick={() => onClose?.()}
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-4 py-2 bg-app-primary text-white rounded hover:bg-app-primary/90"
+              className="px-4 py-2 bg-app-primary text-white rounded hover:bg-app-primary/90 cursor-pointer"
             >
               Create
             </button>

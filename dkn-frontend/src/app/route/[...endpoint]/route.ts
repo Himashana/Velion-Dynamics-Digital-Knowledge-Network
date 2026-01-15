@@ -63,3 +63,31 @@ export async function POST(
     return NextResponse.json({ error: e.message }, { status: 502 });
   }
 }
+
+// Handle DELETE requests to dynamic endpoints
+export async function DELETE(
+  _: NextRequest,
+  context: { params: Promise<{ endpoint: string[] }> }
+) {
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+  const token = (await cookies()).get("session")?.value;
+
+  // Extract the dynamic endpoint from the route parameters
+  const params = await context.params;
+  const path = params.endpoint.join("/");
+  const url = new URL(`${baseUrl}/${path}`);
+
+  try {
+    // Forward the DELETE request to the appropriate backend service with authentication header
+    const res = await fetch(url.toString(), {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        ...(token && { Authorization: `Bearer ${token}` }),
+      },
+    });
+    return NextResponse.json(await res.json(), { status: res.status });
+  } catch (e: any) {
+    return NextResponse.json({ error: e.message }, { status: 502 });
+  }
+}

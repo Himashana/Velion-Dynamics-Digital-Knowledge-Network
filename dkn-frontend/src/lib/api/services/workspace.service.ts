@@ -24,3 +24,11 @@ export const getAllWorkspaces = async () => {
   );
   return response.json();
 };
+
+// Function to delete a workspace by its ID
+export const deleteWorkspace = async (workspaceId: number) => {
+  const response = await apiClient.delete<void>(
+    `/route/digital-workspaces/${workspaceId}`
+  );
+  return response.json();
+};

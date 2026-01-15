@@ -12,6 +12,7 @@ import com.himashana.dkn.dkn_backend.user.repository.AppUserRepository;
 import com.himashana.dkn.dkn_backend.user.service.UserService;
 import com.himashana.dkn.dkn_backend.workspace.model.DigitalWorkspace;
 import com.himashana.dkn.dkn_backend.workspace.model.WorkspaceAccess;
+import com.himashana.dkn.dkn_backend.workspace.model.WorkspaceAccessId;
 import com.himashana.dkn.dkn_backend.workspace.repository.DigitalWorkspaceRepository;
 import com.himashana.dkn.dkn_backend.workspace.repository.WorkspaceAccessRepository;
 
@@ -50,6 +51,8 @@ public class WorkspaceService {
 
         AppUser user = appUserRepository.findById(currentUser.getUserId())
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + currentUser.getUserId()));
+
+        workspaceAccess.setId(new WorkspaceAccessId(savedWorkspace.getWorkspaceId(), user.getUserId()));
         workspaceAccess.setDigitalWorkspace(savedWorkspace);
         workspaceAccess.setUser(user);
         workspaceAccess.setPermissionLevel(2); // Write permission
