@@ -2,9 +2,6 @@ export interface User {
   userId: number;
   name: string;
   email: string;
-  authorities: {
-    authority: string;
-  }[];
   contactNumber: string;
   address: string;
   designation?: string;

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.himashana.dkn.dkn_backend.authentication.service.JwtService;
 import com.himashana.dkn.dkn_backend.dto.ApiResponse;
+import com.himashana.dkn.dkn_backend.user.dto.UserDto;
 import com.himashana.dkn.dkn_backend.user.model.AppUser;
 import com.himashana.dkn.dkn_backend.user.repository.AppUserRepository;
 
@@ -58,15 +59,34 @@ public class UserService {
     }
 
     // Get Current User
-    public AppUser getCurrentUser(Authentication authentication) {
+    public UserDto getCurrentUser(Authentication authentication) {
         if (authentication == null || !authentication.isAuthenticated()) {
             throw new RuntimeException("Access denied.");
         }
 
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
-        return appUserRepository
+        // Fetch user from the database
+        AppUser appUser = appUserRepository
                 .findByEmail(userDetails.getUsername())
                 .orElseThrow(() -> new RuntimeException("User not found"));
+
+        // Return only the relevant user details in UserDto
+        UserDto userDto = new UserDto();
+        userDto.setUserId(appUser.getUserId());
+        userDto.setName(appUser.getName());
+        userDto.setAddress(appUser.getAddress());
+        userDto.setEmail(appUser.getEmail());
+        userDto.setContactNumber(appUser.getContactNumber());
+        userDto.setPermissionLevel(appUser.getPermissionLevel());
+        userDto.setDesignation(appUser.getDesignation());
+        userDto.setOfficeLocation(appUser.getOfficeLocation());
+        userDto.setPerformanceMetrics(appUser.getPerformanceMetrics());
+        userDto.setResponsibility(appUser.getResponsibility());
+        userDto.setExpertDomains(appUser.getExpertDomains());
+        userDto.setYearsOfExperience(appUser.getYearsOfExperience());
+        userDto.setSessionHoursDelivered(appUser.getSessionHoursDelivered());
+
+        return userDto;
     }
 }

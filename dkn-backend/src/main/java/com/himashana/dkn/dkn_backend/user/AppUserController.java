@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import com.himashana.dkn.dkn_backend.dto.ApiResponse;
 
 import lombok.RequiredArgsConstructor;
+
+import com.himashana.dkn.dkn_backend.user.dto.UserDto;
 import com.himashana.dkn.dkn_backend.user.model.AppUser;
 import com.himashana.dkn.dkn_backend.user.service.UserService;
 
@@ -25,8 +27,8 @@ public class AppUserController {
 
     // Get Current User
     @GetMapping("/me")
-    public ResponseEntity<AppUser> getCurrentUser(Authentication authentication) {
-        AppUser currentUser = userService.getCurrentUser(authentication);
+    public ResponseEntity<UserDto> getCurrentUser(Authentication authentication) {
+        UserDto currentUser = userService.getCurrentUser(authentication);
         return ResponseEntity.ok(currentUser);
     }
 }
