@@ -1,6 +1,5 @@
 package com.himashana.dkn.dkn_backend.authentication;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,16 +9,11 @@ import com.himashana.dkn.dkn_backend.dto.ApiResponse;
 
 import lombok.RequiredArgsConstructor;
 
-import com.himashana.dkn.dkn_backend.user.repository.AppUserRepository;
-
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/auth")
 public class AuthenticationController {
-    @Autowired
-    AppUserRepository appUserRepository;
-
     private final AuthService authService;
 
     // Authenticate User
