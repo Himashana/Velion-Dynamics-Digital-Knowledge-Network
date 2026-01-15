@@ -27,8 +27,13 @@ public class WorkspaceController {
     }
 
     @GetMapping
-    public ResponseEntity<Iterable<DigitalWorkspace>> getAllWorkspaces(Authentication authentication) {
-        return workspaceService.getAllWorkspaces(authentication);
+    public ResponseEntity<Iterable<DigitalWorkspace>> getAllWorkspaces() {
+        return workspaceService.getAllWorkspaces();
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<Iterable<DigitalWorkspace>> getAllWorkspacesCurrentUser(Authentication authentication) {
+        return workspaceService.getAllWorkspacesCurrentUser(authentication);
     }
 
     @PutMapping

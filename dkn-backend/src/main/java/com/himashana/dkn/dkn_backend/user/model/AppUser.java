@@ -18,6 +18,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.himashana.dkn.dkn_backend.content.model.ContentAccess;
 import com.himashana.dkn.dkn_backend.user.enums.PermissionLevel;
 import com.himashana.dkn.dkn_backend.workspace.model.WorkspaceAccess;
 
@@ -73,6 +74,10 @@ public class AppUser implements UserDetails {
     @OneToMany(mappedBy = "user")
     @JsonIgnore
     private List<WorkspaceAccess> workspaceAccessList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    private List<ContentAccess> contentAccessList = new ArrayList<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

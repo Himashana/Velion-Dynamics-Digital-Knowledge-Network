@@ -76,19 +76,19 @@ public class WorkspaceService {
     }
 
     // Retrieve all digital workplaces
-    public ResponseEntity<Iterable<DigitalWorkspace>> getAllWorkspaces(Authentication authentication) {
+    public ResponseEntity<Iterable<DigitalWorkspace>> getAllWorkspaces() {
+        Iterable<DigitalWorkspace> workspaces = digitalWorkspaceRepository.findAllByIsDeletedFalse();
+        return ResponseEntity.ok(workspaces);
+    }
+
+    // Retrieve all digital workplaces for the current user
+    public ResponseEntity<Iterable<DigitalWorkspace>> getAllWorkspacesCurrentUser(Authentication authentication) {
         // Fetch current user
         UserDto currentUser = userService.getCurrentUser(authentication);
         Iterable<DigitalWorkspace> workspaces;
 
-        if (currentUser.getPermissionLevel() == 1) {
-            // All workspaces access for leadership level
-            workspaces = digitalWorkspaceRepository.findAllByIsDeletedFalse();
-        } else {
-            // Limited workspaces access for other users
-            workspaces = digitalWorkspaceRepository.findAllByIsDeletedFalseAndCurrentUser(currentUser.getUserId());
-        }
-
+        workspaces = digitalWorkspaceRepository.findAllByIsDeletedFalseAndCurrentUser(currentUser.getUserId());
+        
         return ResponseEntity.ok(workspaces);
     }
 
