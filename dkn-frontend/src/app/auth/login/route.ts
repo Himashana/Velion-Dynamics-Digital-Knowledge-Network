@@ -33,3 +33,10 @@ export async function POST(req: Request) {
 
   return NextResponse.json({ success: true });
 }
+
+// Logout
+export async function DELETE() {
+  // Clear the session cookie
+  (await cookies()).delete("session");
+  return NextResponse.json({ success: true });
+}

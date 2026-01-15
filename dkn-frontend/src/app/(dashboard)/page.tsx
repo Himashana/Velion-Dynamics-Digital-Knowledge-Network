@@ -1,5 +1,3 @@
 export default function DashboardPage() {
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black"></div>
-  );
+  return <div className="h-[calc(100vh-72px)] font-sans bg-gray-800">A</div>;
 }

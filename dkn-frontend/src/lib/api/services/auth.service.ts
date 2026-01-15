@@ -15,3 +15,16 @@ export const authenticateUser = async (email: string, password: string) => {
   // Return the parsed JSON response
   return response.json();
 };
+
+// Function to logout user by clearing the session cookie
+export const logoutUser = async () => {
+  // Make a DELETE request to the logout endpoint
+  const response = await fetch("/auth/login", {
+    method: "DELETE",
+  });
+
+  // Throw an error if the response is not ok
+  if (!response.ok) throw new Error("Logout failed");
+
+  return response.json();
+};

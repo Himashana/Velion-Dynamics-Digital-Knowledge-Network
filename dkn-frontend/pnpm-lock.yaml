@@ -18,7 +18,7 @@ importers:
         specifier: ^2.1.1
         version: 2.1.1
       ky:
-        specifier: ^1.14.2
+        specifier: ^1.7.5
         version: 1.14.2
       next:
         specifier: 16.1.1
