@@ -69,7 +69,7 @@ export default function LoginPage() {
             </div>
             <button
               type="submit"
-              className="w-full rounded bg-app-primary px-4 py-2 font-bold text-white hover:bg-app-primary/90 focus:outline-none focus:ring-2 focus:ring-app-primary focus:ring-offset-2"
+              className="w-full rounded bg-app-primary px-4 py-2 font-bold text-white hover:bg-app-primary/90 focus:outline-none focus:ring-2 focus:ring-app-primary focus:ring-offset-2 cursor-pointer"
             >
               {loginMutation.isPending ? "Authenticating..." : "Sign In"}
             </button>

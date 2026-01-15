@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +26,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
 
+    // Register User
     public ResponseEntity<ApiResponse> registerUser(AppUser appUser) {
         Optional<AppUser> existingUser = appUserRepository.findByEmail(appUser.getEmail());
 
@@ -52,5 +55,18 @@ public class UserService {
             apiResponse.setResponse("User with the given email already exists.");
         }
         return ResponseEntity.ok(apiResponse);
+    }
+
+    // Get Current User
+    public AppUser getCurrentUser(Authentication authentication) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new RuntimeException("Access denied.");
+        }
+
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+        return appUserRepository
+                .findByEmail(userDetails.getUsername())
+                .orElseThrow(() -> new RuntimeException("User not found"));
     }
 }

@@ -1,4 +1,3 @@
-import { cookies } from "next/headers";
 import ky, { HTTPError } from "ky";
 
 // Ensure that the API base URL is defined
@@ -14,18 +13,9 @@ export interface ExtendedHTTPError extends HTTPError {
 // Usage: only for the authenticated requests after login.
 export const apiClient = ky.create({
   prefixUrl: process.env.NEXT_PUBLIC_API_BASE_URL,
+  credentials: "include", // Include cookies in requests
+  throwHttpErrors: true,
   hooks: {
-    beforeRequest: [
-      async (request) => {
-        // Skip adding the token if NO-TOKEN header is present
-        if (request.headers.get("NO-TOKEN")) return;
-
-        // Retrieve the token from cookies (server-side)
-        const token = (await cookies()).get("session")?.value;
-        // Add the Authorization header if the token exists
-        if (token) request.headers.set("Authorization", `Bearer ${token}`);
-      },
-    ],
     beforeError: [
       // Enhance HTTPError with response data
       async (error: ExtendedHTTPError) => {

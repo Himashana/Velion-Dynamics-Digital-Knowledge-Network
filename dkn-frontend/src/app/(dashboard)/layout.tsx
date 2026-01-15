@@ -1,3 +1,4 @@
+import { NavBar } from "@/src/components/ui/NavBar";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -12,5 +13,10 @@ export default async function DashboardLayout({
     redirect("/login");
   }
 
-  return <main>{children}</main>;
+  return (
+    <main>
+      <NavBar />
+      {children}
+    </main>
+  );
 }
