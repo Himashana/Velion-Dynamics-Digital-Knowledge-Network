@@ -3,7 +3,6 @@ package com.himashana.dkn.dkn_backend.workspace.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import com.himashana.dkn.dkn_backend.dto.ApiResponse;
@@ -43,19 +42,21 @@ public class WorkspaceService {
         digitalWorkspace.setWorkspaceId(null); // Ensure the ID is null for new entity creation to auto-generate
         digitalWorkspace.setDeleted(false);
 
+        // Save the new workspace
+        DigitalWorkspace savedWorkspace = digitalWorkspaceRepository.save(digitalWorkspace);
+
         // Assign the write permission to the creator
         WorkspaceAccess workspaceAccess = new WorkspaceAccess();
 
         AppUser user = appUserRepository.findById(currentUser.getUserId())
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + currentUser.getUserId()));
-        workspaceAccess.setDigitalWorkspace(digitalWorkspace);
+        workspaceAccess.setDigitalWorkspace(savedWorkspace);
         workspaceAccess.setUser(user);
         workspaceAccess.setPermissionLevel(2); // Write permission
         workspaceAccess.setInvitedDate(java.time.LocalDate.now().toString());
         workspaceAccess.setInvitedBy(currentUser.getUserId());
 
-        // Save the new workspace and access
-        digitalWorkspaceRepository.save(digitalWorkspace);
+        // Save workspace access
         workspaceAccessRepository.save(workspaceAccess);
 
         apiResponse.setResponse("Workspace created successfully.");

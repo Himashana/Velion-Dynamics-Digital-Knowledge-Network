@@ -4,7 +4,7 @@ import { useAuthMutation } from "@/src/hooks/useAuthMutation";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-export function LoginPageComponent() {
+export function LoginSection() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

@@ -3,6 +3,7 @@
 import { useDeAuthMutation } from "@/src/hooks/useDeAuthMutation";
 import { queries } from "@/src/lib/api/queries";
 import { useQuery } from "@tanstack/react-query";
+import { LogOut } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -25,17 +26,17 @@ export function NavBar() {
       <Link href="/">
         <h1 className="text-white text-2xl font-bold">Velion Dynamics DKN</h1>
       </Link>
-      <div className="flex items-center mt-4 md:mt-0 flex-row gap-2">
+      <div className="flex items-center mt-4 md:mt-0 flex-row">
         {currentUser && (
           <p className="text-white mr-4">
             Welcome, {currentUser?.name.split(" ")[0]}
           </p>
         )}
         <button
-          className="text-white bg-red-600 px-4 py-0 md:py-2 rounded hover:bg-red-700 transition cursor-pointer"
+          className="text-red-500 rounded hover:text-red-600 transition cursor-pointer"
           onClick={handleLogout}
         >
-          Logout
+          <LogOut className="w-5 h-5" />
         </button>
       </div>
     </nav>

@@ -14,9 +14,9 @@ export default async function DashboardLayout({
   }
 
   return (
-    <main>
+    <main className="min-h-screen bg-gray-800">
       <NavBar />
-      <div className="h-[calc(100vh-72px)] font-sans bg-gray-800 text-white p-4">
+      <div className="h-[calc(100vh-72px)] font-sans bg-gray-800 text-white p-4 overflow-auto">
         {children}
       </div>
     </main>

@@ -1,5 +1,5 @@
-import { WorkspacesComponent } from "@/src/components/Workspace/WorkspacesComponent";
+import { WorkspacesSection } from "@/src/components/Workspace/WorkspacesSection";
 
 export default function DashboardPage() {
-  return <WorkspacesComponent />;
+  return <WorkspacesSection />;
 }

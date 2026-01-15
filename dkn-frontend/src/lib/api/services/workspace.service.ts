@@ -3,6 +3,20 @@
 import { apiClient } from "../../apiClient";
 import { Workspace } from "../@types/workspace";
 
+// Function to create a new workspace
+export const createWorkspace = async (name: string, description?: string) => {
+  const response = await apiClient.post<Workspace>(
+    `/route/digital-workspaces`,
+    {
+      body: JSON.stringify({
+        name,
+        description,
+      }),
+    }
+  );
+  return response.json();
+};
+
 // Function to get the current authenticated user's details
 export const getAllWorkspaces = async () => {
   const response = await apiClient.get<Workspace[]>(
