@@ -20,6 +20,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.himashana.dkn.dkn_backend.comment.model.Comment;
 import com.himashana.dkn.dkn_backend.content.model.ContentAccess;
+import com.himashana.dkn.dkn_backend.team.model.TeamMember;
 import com.himashana.dkn.dkn_backend.user.enums.PermissionLevel;
 import com.himashana.dkn.dkn_backend.workspace.model.WorkspaceAccess;
 
@@ -83,6 +84,10 @@ public class AppUser implements UserDetails {
     @OneToMany(mappedBy = "commentedBy")
     @JsonIgnore
     private List<Comment> commentsList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "staffMember")
+    @JsonIgnore
+    private List<TeamMember> teamMemberList = new ArrayList<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
