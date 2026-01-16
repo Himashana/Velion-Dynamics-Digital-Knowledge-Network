@@ -13,9 +13,6 @@ import com.himashana.dkn.dkn_backend.content.service.ContentService;
 import com.himashana.dkn.dkn_backend.dto.ApiResponse;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PathVariable;
 
 
 
@@ -50,8 +47,13 @@ public class ContentController {
         return contentService.updateContent(content);
     }
 
+    @PutMapping("/{contentId}/flag")
+    public ResponseEntity<ApiResponse> flagContent(@PathVariable Long contentId) {
+        return contentService.flagContent(contentId);
+    }
+
     @DeleteMapping("/{contentId}")
-    public ResponseEntity<ApiResponse> deleteContent(@PathVariable Long contentId) {
-        return contentService.deleteContent(contentId);
+    public ResponseEntity<ApiResponse> removeContent(@PathVariable Long contentId) {
+        return contentService.removeContent(contentId);
     }
 }

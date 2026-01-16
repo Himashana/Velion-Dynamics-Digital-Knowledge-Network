@@ -50,4 +50,15 @@ public class WorkspaceAccessService {
         workspaceAccessRepository.save(newWorkspaceAccess);
         return ResponseEntity.ok(new ApiResponse("Workspace assigned to user successfully") );
     }
+
+    // Remove workspace access from user
+    public ResponseEntity<ApiResponse> removeAccess(WorkspaceAccessId workspaceAccessId){
+        WorkspaceAccess workspaceAccess = workspaceAccessRepository.findById(workspaceAccessId).orElse(null);
+        if(workspaceAccess == null){
+            return ResponseEntity.ok(new ApiResponse("Workspace access not found"));
+        }
+
+        workspaceAccessRepository.delete(workspaceAccess);
+        return ResponseEntity.ok(new ApiResponse("Workspace access removed successfully"));
+    }
 }

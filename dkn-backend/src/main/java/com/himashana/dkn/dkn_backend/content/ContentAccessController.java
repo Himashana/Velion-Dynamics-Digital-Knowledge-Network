@@ -4,6 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.himashana.dkn.dkn_backend.content.model.ContentAccess;
+import com.himashana.dkn.dkn_backend.content.model.ContentAccessId;
 import com.himashana.dkn.dkn_backend.content.service.ContentAccessService;
 import com.himashana.dkn.dkn_backend.dto.ApiResponse;
 
@@ -18,5 +19,10 @@ public class ContentAccessController {
      @PostMapping
     public ResponseEntity<ApiResponse> assignContentToUser(@RequestBody ContentAccess contentAccess) {
         return contentAccessService.assignContentToUser(contentAccess);
+    }
+
+    @DeleteMapping
+    public ResponseEntity<ApiResponse> removeAccess(@RequestParam Long contentId, @RequestParam Long userId) {
+        return contentAccessService.removeAccess(new ContentAccessId(contentId, userId));
     }
 }

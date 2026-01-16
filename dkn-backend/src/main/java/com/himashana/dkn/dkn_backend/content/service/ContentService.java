@@ -173,8 +173,22 @@ public class ContentService {
         return ResponseEntity.ok(apiResponse);
     }
 
+    // Flag inappropriate content
+    public ResponseEntity<ApiResponse> flagContent(Long contentId) {
+        ApiResponse apiResponse = new ApiResponse("");
+
+        Content content = contentRepository.findById(contentId)
+                .orElseThrow(() -> new RuntimeException("Content not found with id: " + contentId));
+
+        content.setFlagged(true);
+        contentRepository.save(content);
+
+        apiResponse.setResponse("Content flagged successfully.");
+        return ResponseEntity.ok(apiResponse);
+    }
+
     // Soft delete a content
-    public ResponseEntity<ApiResponse> deleteContent(Long contentId) {
+    public ResponseEntity<ApiResponse> removeContent(Long contentId) {
         ApiResponse apiResponse = new ApiResponse("");
 
         Content content = contentRepository.findById(contentId)
