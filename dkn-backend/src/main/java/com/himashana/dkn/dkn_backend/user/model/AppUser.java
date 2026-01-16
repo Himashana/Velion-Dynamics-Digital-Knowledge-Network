@@ -59,6 +59,8 @@ public class AppUser implements UserDetails {
     private String designation;
      @Column(nullable = false)
     private String officeLocation;
+
+    private String createdAt;
     
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(columnDefinition = "json", nullable = true)

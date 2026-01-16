@@ -50,4 +50,15 @@ public class ContentAccessService {
         contentAccessRepository.save(newContentAccess);
         return ResponseEntity.ok(new ApiResponse("Content assigned to user successfully") );
     }
+
+    // Revoke content from user
+    public ResponseEntity<ApiResponse> removeAccess(ContentAccessId contentAccessId){
+        ContentAccess contentAccess = contentAccessRepository.findById(contentAccessId).orElse(null);
+        if(contentAccess == null){
+            return ResponseEntity.ok(new ApiResponse("Content access not found"));
+        }
+
+        contentAccessRepository.delete(contentAccess);
+        return ResponseEntity.ok(new ApiResponse("Content access revoked successfully"));
+    }
 }

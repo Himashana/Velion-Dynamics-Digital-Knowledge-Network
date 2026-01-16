@@ -7,6 +7,7 @@ import com.himashana.dkn.dkn_backend.dto.ApiResponse;
 
 import lombok.RequiredArgsConstructor;
 import com.himashana.dkn.dkn_backend.workspace.model.WorkspaceAccess;
+import com.himashana.dkn.dkn_backend.workspace.model.WorkspaceAccessId;
 import com.himashana.dkn.dkn_backend.workspace.service.WorkspaceAccessService;
 
 @RestController
@@ -18,5 +19,10 @@ public class WorkspaceAccessController {
     @PostMapping
     public ResponseEntity<ApiResponse> assignWorkspaceToUser(@RequestBody WorkspaceAccess workspaceAccess) {
         return workspaceAccessService.assignWorkspaceToUser(workspaceAccess);
+    }
+
+    @DeleteMapping
+    public ResponseEntity<ApiResponse> removeAccess(@RequestBody WorkspaceAccessId workspaceAccessId) {
+        return workspaceAccessService.removeAccess(workspaceAccessId);
     }
 }
