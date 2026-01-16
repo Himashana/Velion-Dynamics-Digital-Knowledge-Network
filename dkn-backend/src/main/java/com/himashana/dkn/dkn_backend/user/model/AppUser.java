@@ -18,6 +18,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.himashana.dkn.dkn_backend.assistance.model.Assistance;
 import com.himashana.dkn.dkn_backend.comment.model.Comment;
 import com.himashana.dkn.dkn_backend.content.model.ContentAccess;
 import com.himashana.dkn.dkn_backend.message.model.Message;
@@ -98,6 +99,14 @@ public class AppUser implements UserDetails {
     @JsonIgnore
     private List<Message> receivedMessagesList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "arrangedBy")
+    @JsonIgnore
+    private List<Assistance> arrangedAssistanceByList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "arrangedTo")
+    @JsonIgnore
+    private List<Assistance> arrangedAssistanceToList = new ArrayList<>();
+    
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         PermissionLevel permission =
