@@ -11,6 +11,7 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.himashana.dkn.dkn_backend.comment.model.Comment;
 import com.himashana.dkn.dkn_backend.workspace.model.DigitalWorkspace;
 
 import jakarta.persistence.Id;
@@ -50,4 +51,8 @@ public class Content {
     @OneToMany(mappedBy = "content")
     @JsonIgnore
     private List<ContentAccess> contentAccessList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "content")
+    @JsonIgnore
+    private List<Comment> commentsList = new ArrayList<>();
 }
