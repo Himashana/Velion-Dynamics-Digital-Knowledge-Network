@@ -5,7 +5,6 @@ import lombok.Setter;
 import lombok.ToString;
 
 import com.himashana.dkn.dkn_backend.user.model.AppUser;
-import com.himashana.dkn.dkn_backend.workspace.model.DigitalWorkspace;
 
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;

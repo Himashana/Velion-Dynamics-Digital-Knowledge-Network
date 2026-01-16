@@ -20,6 +20,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.himashana.dkn.dkn_backend.comment.model.Comment;
 import com.himashana.dkn.dkn_backend.content.model.ContentAccess;
+import com.himashana.dkn.dkn_backend.message.model.Message;
 import com.himashana.dkn.dkn_backend.team.model.TeamMember;
 import com.himashana.dkn.dkn_backend.user.enums.PermissionLevel;
 import com.himashana.dkn.dkn_backend.workspace.model.WorkspaceAccess;
@@ -88,6 +89,14 @@ public class AppUser implements UserDetails {
     @OneToMany(mappedBy = "staffMember")
     @JsonIgnore
     private List<TeamMember> teamMemberList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "sender")
+    @JsonIgnore
+    private List<Message> sentMessagesList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "receiver")
+    @JsonIgnore
+    private List<Message> receivedMessagesList = new ArrayList<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

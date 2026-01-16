@@ -21,7 +21,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class CommentService {
-     @Autowired
+    @Autowired
     AppUserRepository appUserRepository;
 
     @Autowired
