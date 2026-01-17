@@ -48,14 +48,16 @@ export function CommentsSection({ contentId }: { contentId: number }) {
           <div className="space-y-4">
             {commentsList?.map((comment) => (
               <div key={comment.id} className="p-4 rounded-lg bg-gray-700">
-                <div className="flex flex-row justify-between">
+                <div className="flex flex-col md:flex-row justify-between mb-2">
                   <div>
                     <p className="font-bold text-white mb-2">
                       {comment.commentedBy.name}
                     </p>
                   </div>
                   <div>
-                    <p>{new Date(comment.timestamp).toLocaleString()}</p>
+                    <p className="text-gray-400 text-sm italic">
+                      {new Date(comment.timestamp).toLocaleString()}
+                    </p>
                   </div>
                 </div>
                 <p className="text-gray-300">{comment.comment}</p>

@@ -131,7 +131,7 @@ export function RegisterUserSection() {
             >
               <option value={1}>1 - Leadership</option>
               <option value={2}>2 - Knowladge Champion</option>
-              <option value={3}>3 -</option>
+              <option value={3}>3 - Knowladge Governance Council</option>
               <option value={4}>4 -</option>
               <option value={5}>5 - Senior Consultant</option>
               <option value={6}>6 - Junior Consultant</option>
