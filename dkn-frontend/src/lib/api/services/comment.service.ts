@@ -19,7 +19,7 @@ export const createComment = async (comment: string, contentId: number) => {
 // Function to get all comments
 export const getAllComments = async (contentId: number) => {
   const response = await apiClient.get<Comment[]>(
-    `/route/contents/comments/contents/${contentId}`,
+    `/route/contents/comments/content/${contentId}`,
   );
   return response.json();
 };

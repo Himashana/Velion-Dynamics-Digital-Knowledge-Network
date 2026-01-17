@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { UpdateContentSection } from "./UpdateContentSection";
 import { Pencil } from "lucide-react";
+import { CommentsSection } from "../Comment/CommentsSection";
 
 export function ViewContentSection({ contentId }: { contentId: number }) {
   const [isUpdateContentOpen, setIsUpdateContentOpen] = useState(false);
@@ -52,6 +53,8 @@ export function ViewContentSection({ contentId }: { contentId: number }) {
       ) : (
         <div>Content not found.</div>
       )}
+
+      <CommentsSection contentId={contentId} />
 
       {isUpdateContentOpen && content && (
         <UpdateContentSection
