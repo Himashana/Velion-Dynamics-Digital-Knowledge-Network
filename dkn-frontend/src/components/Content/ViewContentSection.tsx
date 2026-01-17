@@ -2,8 +2,13 @@
 
 import { queries } from "@/src/lib/api/queries";
 import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
+import { UpdateContentSection } from "./UpdateContentSection";
+import { Pencil } from "lucide-react";
 
 export function ViewContentSection({ contentId }: { contentId: number }) {
+  const [isUpdateContentOpen, setIsUpdateContentOpen] = useState(false);
+
   const { data: content, isLoading: isContentLoading } = useQuery({
     ...queries.contents.getContentById(contentId),
   });
@@ -22,9 +27,37 @@ export function ViewContentSection({ contentId }: { contentId: number }) {
             title="Content Preview"
             className="w-full h-140 bg-white"
           ></iframe>
+          <div className="mt-4 flex">
+            <div className="text-white">
+              {content.tags && content.tags.length > 0 ? (
+                <p>
+                  {content.tags.map((tag, index) => (
+                    <span key={index} className="mr-2">
+                      #{tag}
+                    </span>
+                  ))}
+                </p>
+              ) : (
+                <p className="text-gray-400">No tags available.</p>
+              )}
+            </div>
+            <button
+              className="cursor-pointer"
+              onClick={() => setIsUpdateContentOpen(true)}
+            >
+              <Pencil className="ml-4 h-5 w-5 text-white/80 hover:text-white" />
+            </button>
+          </div>
         </div>
       ) : (
         <div>Content not found.</div>
+      )}
+
+      {isUpdateContentOpen && content && (
+        <UpdateContentSection
+          content={content}
+          onClose={() => setIsUpdateContentOpen(false)}
+        />
       )}
     </div>
   );

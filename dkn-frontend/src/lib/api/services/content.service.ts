@@ -55,14 +55,12 @@ export const getContentById = async (contentId: number) => {
 
 // Function to update a content's metadata
 export const updateContent = async (contentId: number, tags: string[]) => {
-  const response = await apiClient.put<Content>(
-    `/route/contents/${contentId}`,
-    {
-      body: JSON.stringify({
-        tags,
-      }),
-    },
-  );
+  const response = await apiClient.put<Content>(`/route/contents`, {
+    body: JSON.stringify({
+      contentId,
+      tags,
+    }),
+  });
   return response.json();
 };
 
