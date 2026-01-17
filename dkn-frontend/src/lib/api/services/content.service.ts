@@ -53,6 +53,19 @@ export const getContentById = async (contentId: number) => {
   return response.json();
 };
 
+// Function to update a content's metadata
+export const updateContent = async (contentId: number, tags: string[]) => {
+  const response = await apiClient.put<Content>(
+    `/route/contents/${contentId}`,
+    {
+      body: JSON.stringify({
+        tags,
+      }),
+    },
+  );
+  return response.json();
+};
+
 // Function to delete a content by its ID
 export const deleteContent = async (contentId: number) => {
   const response = await apiClient.delete<void>(`/route/contents/${contentId}`);

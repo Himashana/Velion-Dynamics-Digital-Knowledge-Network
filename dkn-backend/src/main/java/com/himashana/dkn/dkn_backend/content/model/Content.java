@@ -41,6 +41,8 @@ public class Content {
     @Column(nullable = false)
     private String filePath;
 
+    private String contentType;
+
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(columnDefinition = "json", nullable = true)
     private List<String> tags;
