@@ -41,6 +41,11 @@ public class ContentController {
     public ResponseEntity<Iterable<Content>> getAllContents() {
         return contentService.getAllContents();
     }
+
+    @GetMapping("/workspace/{workspaceId}")
+    public ResponseEntity<Iterable<Content>> getContentsByWorkspaceId(@PathVariable Long workspaceId) {
+        return contentService.getContentsByWorkspaceId(workspaceId);
+    }
     
     @PutMapping
     public ResponseEntity<ApiResponse> updateContent(@RequestBody Content content) {

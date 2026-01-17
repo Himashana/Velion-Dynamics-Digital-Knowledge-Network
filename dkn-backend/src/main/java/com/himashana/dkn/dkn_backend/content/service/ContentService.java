@@ -5,6 +5,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -155,6 +157,15 @@ public class ContentService {
     // Retrieve all contents
     public ResponseEntity<Iterable<Content>> getAllContents() {
         Iterable<Content> contents = contentRepository.findAllByIsDeletedFalse();
+        return ResponseEntity.ok(contents);
+    }
+
+    // Retrieve contents by workspace ID
+    public ResponseEntity<Iterable<Content>> getContentsByWorkspaceId(Long workspaceId) {
+        Iterable<Content> contents = StreamSupport.stream(contentRepository.findAllByIsDeletedFalse().spliterator(), false).filter(c -> 
+            c.getDigitalWorkspace() != null && 
+            c.getDigitalWorkspace().getWorkspaceId().equals(workspaceId)
+        ).collect(Collectors.toList());
         return ResponseEntity.ok(contents);
     }
 

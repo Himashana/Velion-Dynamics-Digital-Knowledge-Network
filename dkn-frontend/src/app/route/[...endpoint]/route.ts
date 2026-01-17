@@ -7,7 +7,7 @@ import { NextRequest, NextResponse } from "next/server";
 // Handle GET requests to dynamic endpoints
 export async function GET(
   request: NextRequest,
-  context: { params: Promise<{ endpoint: string[] }> }
+  context: { params: Promise<{ endpoint: string[] }> },
 ) {
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
   const token = (await cookies()).get("session")?.value;
@@ -38,7 +38,7 @@ export async function GET(
 // Handle POST requests to dynamic endpoints
 export async function POST(
   request: NextRequest,
-  context: { params: Promise<{ endpoint: string[] }> }
+  context: { params: Promise<{ endpoint: string[] }> },
 ) {
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
   const token = (await cookies()).get("session")?.value;
@@ -67,7 +67,7 @@ export async function POST(
 // Handle DELETE requests to dynamic endpoints
 export async function DELETE(
   _: NextRequest,
-  context: { params: Promise<{ endpoint: string[] }> }
+  context: { params: Promise<{ endpoint: string[] }> },
 ) {
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
   const token = (await cookies()).get("session")?.value;
