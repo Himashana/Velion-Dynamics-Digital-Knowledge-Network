@@ -5,13 +5,20 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.himashana.dkn.dkn_backend.content.model.Content;
 import com.himashana.dkn.dkn_backend.content.model.ContentAccess;
@@ -120,6 +127,7 @@ public class ContentService {
         if (workspaceId != null) {
             digitalWorkspaceRepository.findById(workspaceId).ifPresent(content::setDigitalWorkspace);
         }
+        content.setContentType(file.getContentType());
         content.setFlagged(false);
         content.setDeleted(false);
         Content savedContent = contentRepository.save(content);
@@ -152,9 +160,42 @@ public class ContentService {
         return ResponseEntity.ok(content);
     }
 
+    // Retrieve content preview by ID
+    public ResponseEntity<Resource> getContentPreview(Long contentId) throws java.net.MalformedURLException {
+        Content content = contentRepository.findById(contentId)
+                .filter(c -> !c.isDeleted())
+                .orElseThrow(() -> new RuntimeException("Content not found with id: " + contentId));
+
+        Path filePath = Paths.get(content.getFilePath());
+
+        if (!Files.exists(filePath)) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "File missing"
+            );
+        }
+
+        Resource resource = new UrlResource(filePath.toUri());
+        
+        return ResponseEntity.ok().contentType(MediaType.parseMediaType(content.getContentType()))
+            .header(
+                HttpHeaders.CONTENT_DISPOSITION,
+                "inline; filename=\"" + content.getFilePath().split("\\\\")[content.getFilePath().split("\\\\").length - 1] + "\""
+            )
+            .body(resource);
+    }
+
     // Retrieve all contents
     public ResponseEntity<Iterable<Content>> getAllContents() {
         Iterable<Content> contents = contentRepository.findAllByIsDeletedFalse();
+        return ResponseEntity.ok(contents);
+    }
+
+    // Retrieve contents by workspace ID
+    public ResponseEntity<Iterable<Content>> getContentsByWorkspaceId(Long workspaceId) {
+        Iterable<Content> contents = StreamSupport.stream(contentRepository.findAllByIsDeletedFalse().spliterator(), false).filter(c -> 
+            c.getDigitalWorkspace() != null && 
+            c.getDigitalWorkspace().getWorkspaceId().equals(workspaceId)
+        ).collect(Collectors.toList());
         return ResponseEntity.ok(contents);
     }
 

@@ -12,15 +12,23 @@ export const createWorkspace = async (name: string, description?: string) => {
         name,
         description,
       }),
-    }
+    },
   );
   return response.json();
 };
 
-// Function to get the current authenticated user's details
+// Function to get all workspaces
 export const getAllWorkspaces = async () => {
   const response = await apiClient.get<Workspace[]>(
-    `/route/digital-workspaces`
+    `/route/digital-workspaces`,
+  );
+  return response.json();
+};
+
+// Function to get a workspace by its ID
+export const getWorkspaceById = async (workspaceId: number) => {
+  const response = await apiClient.get<Workspace>(
+    `/route/digital-workspaces/${workspaceId}`,
   );
   return response.json();
 };
@@ -28,7 +36,7 @@ export const getAllWorkspaces = async () => {
 // Function to delete a workspace by its ID
 export const deleteWorkspace = async (workspaceId: number) => {
   const response = await apiClient.delete<void>(
-    `/route/digital-workspaces/${workspaceId}`
+    `/route/digital-workspaces/${workspaceId}`,
   );
   return response.json();
 };

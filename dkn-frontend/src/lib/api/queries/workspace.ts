@@ -1,5 +1,8 @@
 import { createQueryKeys } from "@lukemorales/query-key-factory";
-import { getAllWorkspaces } from "../services/workspace.service";
+import {
+  getAllWorkspaces,
+  getWorkspaceById,
+} from "../services/workspace.service";
 
 export const workspaces = createQueryKeys("workspaces", {
   all: null,
@@ -7,4 +10,8 @@ export const workspaces = createQueryKeys("workspaces", {
     queryKey: null,
     queryFn: () => getAllWorkspaces(),
   },
+  getWorkspaceById: (workspaceId: number) => ({
+    queryKey: [workspaceId],
+    queryFn: () => getWorkspaceById(workspaceId),
+  }),
 });

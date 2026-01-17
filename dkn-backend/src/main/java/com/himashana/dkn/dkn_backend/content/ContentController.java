@@ -2,6 +2,7 @@ package com.himashana.dkn.dkn_backend.content;
 
 import java.io.IOException;
 
+import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -37,9 +38,19 @@ public class ContentController {
         return contentService.getContent(contentId);
     }
 
+    @GetMapping("/{contentId}/preview")
+    public ResponseEntity<Resource> getContentPreview(@PathVariable Long contentId) throws java.net.MalformedURLException {
+        return contentService.getContentPreview(contentId);
+    }
+
     @GetMapping
     public ResponseEntity<Iterable<Content>> getAllContents() {
         return contentService.getAllContents();
+    }
+
+    @GetMapping("/workspace/{workspaceId}")
+    public ResponseEntity<Iterable<Content>> getContentsByWorkspaceId(@PathVariable Long workspaceId) {
+        return contentService.getContentsByWorkspaceId(workspaceId);
     }
     
     @PutMapping
