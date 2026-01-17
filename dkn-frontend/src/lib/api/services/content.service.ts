@@ -69,3 +69,11 @@ export const deleteContent = async (contentId: number) => {
   const response = await apiClient.delete<void>(`/route/contents/${contentId}`);
   return response.json();
 };
+
+// Flag content
+export const flagContent = async (contentId: number) => {
+  const response = await apiClient.put<void>(
+    `/route/contents/${contentId}/flag`,
+  );
+  return response.json();
+};
